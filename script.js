@@ -1,16 +1,21 @@
 let imgBox = document.getElementById("imgBox");
 let qrImage = document.getElementById("qrImage");
 let qrText = document.getElementById("qrText");
+let downloadBtn = document.getElementById("download");
 
 function generateQR() {
     if (qrText.value.length > 0) {
-        qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + qrText.value;
+        const qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(qrText.value);
+        qrImage.src = qrCodeUrl;
         imgBox.classList.add("show-img");
-    }
-    else {
+        downloadBtn.style.display = "block";
+
+        downloadBtn.setAttribute("href", qrCodeUrl);
+        downloadBtn.setAttribute("download", "QRCode.png");
+    } else {
         qrText.classList.add("error");
-        setTimeout(()=>{
+        setTimeout(() => {
             qrText.classList.remove("error");
-        },1000)
+        }, 1000);
     }
 }
